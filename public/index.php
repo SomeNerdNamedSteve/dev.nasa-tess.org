@@ -32,6 +32,8 @@
 
 			<main>
 				<h1>Space Science Institute Adopt-A-Star Program</h1>
+				<h3>All adopted stars</h3>
+				<?php include ('get_adopted_stars.php')?>
 			</main>
 
 		</div>

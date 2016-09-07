@@ -8,7 +8,7 @@
 */
 
 require_once('../../mysql_connect.php');
-$query = "select number, mag, teff, logg, mh, adopted_by from stars;"
+$query = "select number, mag, teff, logg, mh from stars where adopted_by  = "";"
 
 $response = @mysqli_query($dbc, $query);
 
