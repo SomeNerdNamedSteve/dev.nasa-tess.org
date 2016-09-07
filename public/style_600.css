@@ -3,6 +3,23 @@
 	Programmer name: Steven Burgess
 	Date Created: Sept. 7th, 2016
 	Date of Last Maintenance: Sept. 7th 2016
-	File Name: style_600.css
+	File Name: style_large.css
 
 */
+
+*{
+	padding: 0;
+	margin: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+aside{
+	float: left;
+	margin-right: 35px;
+}
+
+main{
+	float: right;
+}
