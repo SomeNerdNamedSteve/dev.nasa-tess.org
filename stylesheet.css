@@ -1,0 +1,32 @@
+/*
+
+	Programmer: Steven Burgess
+	Date of Creation: Sept 5th, 2016
+	Date of last Maintenance: Sept 6th, 2016
+	File: stylesheet.css
+
+*/
+
+.main{
+
+}
+
+
+#aside{
+	background: #0000FF;
+	float: left;
+	padding: 10px 10px 10px 10px;
+}
+
+
+#asidelist{
+
+	list-style-type: none;
+	;
+}
+
+#test{
+
+	background: #9d284b;
+
+}
