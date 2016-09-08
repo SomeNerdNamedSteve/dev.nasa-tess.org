@@ -2,7 +2,7 @@
 	Developer: Steven Burgess
 	Date of Creation: Sept. 5th, 2016
 	Date of last Maintenace: Sept. 8th, 2016
-	File: index.php
+	File: view_unadopted_stars.php
 -->
 
 <doctype html>
@@ -22,31 +22,23 @@
 	<body onresize="getWindowWidth()">
 
 		<div class="wrapper">
-			<aside class="aside">
+			<aside>
 				<ul id="asidelist">
-					<a href="get_unadopted_stars.php">Adopt a Star</a><br>
-					<li>View Adopted Stars</li>
-					<a href="about.html">About</a>
+					<a>Adopt a Star</a><br>
+					<a>View Adopted Stars</a><br>
+					<a>About</a>
 				</ul>
 			</aside>
 
-			<div class="main">
-				<h1>Please enter your star information</h1>
-				<!--?php include('star_search.php')?-->
-			</div>
-
-			<div class="main">
+			<main>
 				<h1>Space Science Institute Adopt-A-Star Program</h1>
 				<h3>All adopted stars</h3>
-				<?php include ('get_adopted_stars.php')?>
-			</div>
+				<?php include ('get_unadopted_stars.php')?>
+			</main>
 
 		</div>
 
 
 	</body>
-
-	<footer>
-	<footer>
 
 </html>

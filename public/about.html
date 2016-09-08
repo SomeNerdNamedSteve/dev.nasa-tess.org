@@ -1,7 +1,7 @@
 <!--
 	Developer: Steven Burgess
 	Date of Creation: Sept. 5th, 2016
-	Date of last Maintenace: Sept. 7th, 2016
+	Date of last Maintenace: Sept. 8th, 2016
 	File: about.html
 -->
 
@@ -11,40 +11,31 @@
 
 	<header>
 		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="style_large.css"></link>>
 		<link rel="stylesheet" type="text/css" media="only screen and (min:width:768 and max-width:980px)" href="style_768.css"></link>>
 		<link rel="stylesheet" type="text/css" media="only screen and (min:width:600 and max-width:767px)" href="style_600.css"></link>
 		<link rel="stylesheet" type="text/css" media="only screen and (min:width:300 and max-width:599px)" href="style_300.css"></link>
 	</header>
 
 	<body>
-		
-		<div class="wrapper">
-			<aside id="aside">
-				<ul id="asidelist">
-					<li>Adopt a Star</li>
-					<li>View Adopted Stars</li>
-					<li>About</li>
-				</ul>
-			</aside>
-		</div>		
-
-		<div class="section">
+		<aside>
+			<ul id="asidelist">
+				<a href="index.php">View Adopted Stars</li><br>
+				<a href="view_unadopted_stars.php">Adopt a star</a><br>
+				<a href="about.html">About</a>
+			</ul>
+		</aside>	
+		<div class="main">
 			<h1>About TESS</h1>
 			<p>
-				TESS (short for Transisting Exoplanet Survey Satallite) is an Explorer class planet finder.  
-				When launched, TESS will identify planets ranging from Earth-sized planets to Gas Giants and orbit
-				a wide range of stellay types and orgital distances.  The main mission of TESS is to detect small host stars
-				along with their respective host planets.
-				<br>
-				TESS will observe and monitor the brightness of over 200,000 stars in the course of its two year
-				mission as well as search for temporary drops in brightness caused by planetary transists, which
-				happen when a planet's orbit causes it to be infront of its host star relative to earth.  
-				<br>
-				TESS is mainly lead by the Massachusetts Institute of Technology (MIT), home to the host of the project,
-				Dr. George Ricker.
+				TESS (short for Transisting Exoplanet Survey Satallite) is an Explorer class planet finder.  When launched, TESS will identify planets ranging from Earth-sized planets to Gas Giants and orbit a wide range of stellar types and orbital distances.  The main mission of TESS is to detect small host stars along with their respective host planets.
+				<br><br>
+				TESS will observe and monitor the brightness of over 200,000 stars in the course of its two year mission as well as search for temporary drops in brightness caused by planetary transists, which happen when a planet's orbit causes it to be infront of its host star relative to earth.  
+				<br><br>
+				TESS is mainly lead by the Massachusetts Institute of Technology (MIT), home to the host of the project, Dr. George Ricker.
 			</p>
 		</div>
-		<div class="section">
+		<div class="main">
 			<h1>About the Adopt-A-Star Program</h1>
 			<p>
 				The Adopt-A-Star program was started by Travis Metcalfe in January 2008 at
@@ -52,17 +43,11 @@
 				help raise research funds for the Kepler Astroseismec Science Consortium.
 				The project started with the Kepler Space Telescope which
 				monitored the brightness of over 150,00 stars.
-				<br>
+				<br><br>
 				The Space Science Institute is a 501(c)(3) non-profit organization run my professional astronomers.  When you adopt a star through this website, you are
 				supporting the work of many man-hours of research and for the tools to do research.  So adopt a star and support the work of the Space Science Institute!
 			</p>
 		</div>
 	</body>
-
-	<footer>
-		<p>Sources</p>
-		<p class="sources">1. https://tess.gsfc.nasa.gov/quickfacts.html</p>
-		<p class="sources">2. adoptastar.whitedwarf.org
-	<footer>
 
 </html>

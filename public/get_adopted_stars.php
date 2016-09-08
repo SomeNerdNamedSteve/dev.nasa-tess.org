@@ -3,7 +3,7 @@
 /*
 	Programmer: Steven Burgess
 	Date of Creation: Sept 7th, 2016
-	Date of Last Maintenance: Sept 7th, 2016
+	Date of Last Maintenance: Sept 8th, 2016
 	File Name: get_star_info.php
 */
 

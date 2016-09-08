@@ -2,15 +2,16 @@
 
 /*
 	Programmer: Steven Burgess
-	Date of Creation: Sept 7th, 2016
+	Date of Creation: Sept 8th, 2016
 	Date of Last Maintenance: Sept 8th, 2016
-	File Name: get_star_info.php
+	File Name: star_search.php
 */
 
 require_once('../../private/mysql_connect.php');
+
+echo'<h3>Please enter your star's information</h3><form action="star_query.php" method="get">Star Number(begins with KIC)<input type="text" name="in_number"><br>Adopted By<input type="text" name="in_adopted_by"><br></form>';
+
 $query = "select number, mag, teff, logg, mh, adopted_by from stars where adopted_by = '';";
-
-
 
 $response = @mysqli_query($dbc, $query);
 
