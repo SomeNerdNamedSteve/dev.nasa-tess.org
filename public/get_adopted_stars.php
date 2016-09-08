@@ -7,8 +7,10 @@
 	File Name: get_star_info.php
 */
 
-require_once('../../mysql_connect.php');
-$query = "select number, mag, teff, logg, mh, adopted_by, from stars where adopted_by != '';";
+require_once('../../private/mysql_connect.php');
+$query = "select number, mag, teff, logg, mh, adopted_by from stars where adopted_by != '';";
+
+
 
 $response = @mysqli_query($dbc, $query);
 
@@ -21,21 +23,18 @@ if($response){
 	<td align="left"><b>Teff</b></td>
 	<td align="left"><b>log(g)</b></td>
 	<td align="left"><b>M/H</b></td>
-	<td align="left"><b>Adopted By</b></td>
+	<td align="left"><b>Adopted By</b></td>';
 
 	// mysqli_fetch_array will return a row of data from the query
 	// until no further data is available
 	while($row = mysqli_fetch_array($response)){
 
-		echo "<tr><td align="left">" .
-		$row['number'] , "</td><td align="left">" ,
-		$row['mag'] , "</td><td align="left">" ,
-		$row['teff'] , "</td><td align="left">" ,
-		$row['logg'] , "</td><td align="left">" ,
-		$row['mh'] , "</td><td align="left">" ,
-		$row['adopted_by'] , "</td><td align="left">" ,
-
-		echo "</tr>";
+		echo '<tr><td align="left">' . $row['number'] .
+		'</td><td align="left">' . $row['mag'] .
+		'</td><td align="left">' . $row['teff'] .
+		'</td><td align="left">' . $row['logg'] .
+		'</td><td align="left">' . $row['mh'] .
+		'</td><td align="left">' . $row['adopted_by'] . '</td></tr>';
 
 	}
 
