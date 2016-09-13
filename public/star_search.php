@@ -26,15 +26,23 @@ if($response){
 	<td align="left"><b>M/H</b></td>
 	<td align="left"><b>Adopted By</b></td>';
 
+	$inner_count = 1;
+
 	// mysqli_fetch_array will return a row of data from the query
 	// until no further data is available
 	while($row = mysqli_fetch_array($response)){
 
-		echo '<tr><td align="left">' . $row['number'] .
-		'</td><td align="left">' . $row['mag'] .
-		'</td><td align="left">' . $row['teff'] .
-		'</td><td align="left">' . $row['logg'] .
-		'</td><td align="left">' . $row['mh'] . '</td></tr>';
+		while(inner_count < 51){
+
+			echo '<tr><td align="left">' . $row['number'] .
+			'</td><td align="left">' . $row['mag'] .
+			'</td><td align="left">' . $row['teff'] .
+			'</td><td align="left">' . $row['logg'] .
+			'</td><td align="left">' . $row['mh'] . '</td></tr>';
+
+		}
+
+		$inner_count++;
 
 	}
 
