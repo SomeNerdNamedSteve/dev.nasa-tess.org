@@ -21,6 +21,8 @@ aside{
 	margin: 30px;
 }
 
+input#total_records{}
+
 main, .main{
 	float: right;
 	text-align: center;

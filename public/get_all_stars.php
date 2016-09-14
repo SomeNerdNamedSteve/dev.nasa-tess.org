@@ -2,9 +2,9 @@
 
 /*
 	Programmer: Steven Burgess
-	Date of Creation: Sept 7th, 2016
-	Date of Last Maintenance: Sept 12th, 2016
-	File Name: get_star_info.php
+	Date of Creation: Sept 13th, 2016
+	Date of Last Maintenance: Sept 13th, 2016
+	File Name: get_all_stars.php
 */
 
 $limit = 50;
@@ -23,12 +23,32 @@ if(isset($_GET['page'])){
 $offset = ($page - 1) * $limit;
 
 require_once('../../private/mysql_connect.php');
-$query = "select number, mag, teff, logg, mh, adopted_by from stars where adopted_by != '' LIMIT " . $offset . "," . $limit . ";";
-
+$query = "select * from stars;";
+/*
+	Variables:
+	adopted_by
+	flag (1=star,2=binary,3=suspected planet,4=planetary system)
+	id
+	lat_d
+	lat_m
+	lat_s
+	logg
+	lon_d
+	lon_m
+	lon_s
+	mag
+	mh
+	number
+	teff
+*/
 $response = @mysqli_query($dbc, $query);
 
 if($response){
 
+
+	$total_records = mysqli_num_rows($response);
+
+/*
 	echo '<table align="left"
 	cellspacing="5" cellpadding="8">
 	<tr><td align="left"><b>Number</b></td>
@@ -38,8 +58,6 @@ if($response){
 	<td align="left"><b>M/H</b></td>
 	<td align="left"><b>Adopted By</b></td>';
 
-	// mysqli_fetch_array will return a row of data from the query
-	// until no further data is available
 	while($row = mysqli_fetch_array($response)){
 		echo '<tr>';
 		echo '<tr><td align="left">' . $row['number'] .
@@ -57,27 +75,27 @@ if($response){
 
 	echo '<div>';
 
-	$new_query = "select number, mag, teff, logg, mh, adopted_by from stars where adopted_by != '';";
-	$new_response = @mysqli_query($dbc, $new_query);
+	$query = "select number, mag, teff, logg, mh, adopted_by from stars;";
+	$new_response = @mysqli_query($dbc, $query);
 	$total_records = mysqli_num_rows($new_response);
 	$total_pages = ceil($total_records / $limit);
 	$page = (isset($_GET['page'])) ? $_GET['page'] : 1;
 	$startPoint = $page - 1;
 
-	echo '<a href="index.php">First</a>';
+	echo '<a href="do_not_click.php">First</a>';
 	if ($page > 1){
 		$temp1 = $page - 1;
-   		echo '<a href="index.php?page='.$temp1.'">Previous</a>';	
+   		echo '<a href="do_not_click.php?page='.$temp1.'">Previous</a>';
 	}
 	if ($page != $total_pages){
    		$temp2 = $page + 1;
-		echo '<a href="index.php?page='.$temp2.'">Next</a>';
+		echo '<a href="do_not_click.php?page='.$temp2.'">Next</a>';
 	}
-	echo '<a href="index.php?page=' . $total_pages . '">Last</a>';
+	echo '<a href="do_not_click.php?page=' . $total_pages . '">Last</a>';
 	echo '</div>';
+*/
 
 }else{
-
 	echo "Could not query from database";
 	mysqli_error($dbc);
 }
@@ -86,3 +104,9 @@ mysqli_close($dbc);
 
 
 ?>
+
+<input type="hidden" id="limit" value="<?php echo $limit; ?>" />
+<script type="text/javascript">
+var limit = "<?= $limit ?>";
+alert(limit);
+</script>
