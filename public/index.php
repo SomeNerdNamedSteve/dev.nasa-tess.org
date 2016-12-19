@@ -2,7 +2,7 @@
 /*
 	Programmer: Steven Burgess
 	Date of file creation: 9/16/16
-	Date of last maintenance: 12/1/16
+	Date of last maintenance: 12/19/16
 	File Name: index.html
 	File purpose: To act as the main page of the website
 */
@@ -10,37 +10,40 @@
 
 
 
-	<html>
-	  <head>
-	    <title>Space Science Center Adopt-a-star program</title>
-	    <link rel="stylesheet" href="style.css">
-	  </head>
+<html>
+	<head>
+		<title>Space Science Center Adopt-a-star program</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
 
-	  <body>
+	<body>
 
-	    <h1 id="header1">Space Science Center Adopt-A-Star Program</h1>
+		<h1 id="header1">Space Science Center Adopt-A-Star Program</h1>
 
-	    <div id="main">
+		<div id="main">
 
-		    <h2>Find your star!</h2>
-		    <form action="index.php" method="post">
-			Adopted For: <input name="adopted_by" type="textfield"><br>
-			<input type="submit">
-		    </form>
+			<h2>Find your star!</h2>
+			<form action="index.php" method="post">
+				Adopted For: <input name="adopted_by" type="textfield"><br>
+				<input type="submit">
+			</form>
 
-		    <?php
+			<?php
 
+				$file = file_get_contents("/home/sgburgess/dev.nasa-tess.org/private/info.json");
+				$info = json_decode($file, true);
 				$server = "mysql.nasa-tess.org";
-				$user = "sgburgess";
-				$pass = "tmp4_Steve";
-				$db = "targets";
+				$user = $info["user"];
+				$pass = $info["pwd"];
+				$db = $info["db"];
 				$conn = mysqli_connect($server, $user, $pass, $db);
 
 				if(!$conn){ die("Connection Failure"); }
-					$adopt = $_POST["adopted_by"];
-					$query = "select * from stars where adopted_by like \"$adopt\" limit 1;";
-					$result = mysqli_query($conn, $query);
-					$num_rows = mysqli_num_rows($result);
+
+				$adopt = $_POST["adopted_by"];
+				$query = "select * from stars where adopted_by like \"$adopt\" limit 1;";
+				$result = mysqli_query($conn, $query);
+				$num_rows = mysqli_num_rows($result);
 
 				if($num_rows > 0){
 					while($row = mysqli_fetch_assoc($result)){
@@ -53,27 +56,28 @@
 					}
 				}
 
-		   ?>
+			?>
 
-	    	<iframe src="http://server1.sky-map.org/skywindow?ra=<?php echo $latd; ?> <?php echo $latm; ?> <?php echo $lats; ?>&de=<?php echo $lond; ?> <?php echo $lonm; ?> <?php echo $lons; ?>&zoom=10" width="400" height="300"></iframe>
-		<br>
-		<br>
-	</div>
+			<iframe  width="400" height="300" src="http://server1.sky-map.org/skywindow?ra=<?php echo $latd; ?> <?php echo $latm; ?> <?php echo $lats; ?>&de=<?php echo $lond; ?> <?php echo $lonm; ?> <?php echo $lons; ?>&zoom=10 img_source="DSS2""></iframe>
+			<br>
+			<br>
+		</div>
 
-	<div id="get_star">
-		    <h2>Have a star of your own!</h2>
+		<div id="get_star">
+			<h2>Have a star of your own!</h2>
 
-		    <?php
-			$server = "mysql.nasa-tess.org";
-			$user = "sgburgess";
-			$pass = "tmp4_Steve";
-			$db = "targets";
+			<?php
+				$file = file_get_contents("/home/sgburgess/dev.nasa-tess.org/private/info.json");
+				$info = json_decode($file, true);
+				$server = "mysql.nasa-tess.org";
+				$user = $info["user"];
+				$pass = $info["pwd"];
+				$db = $info["db"];
+				$conn = mysqli_connect($server, $user, $pass, $db);
 
-			$conn = mysqli_connect($server, $user, $pass, $db);
+				if(!$conn){ die("Connection Failure"); }
 
-			if(!$conn){ die("Connection Failure"); }
 				$adopt = $_POST["adopted_by"];
-
 				$query = "select * from stars where adopted_by=\"\" order by rand() limit 1;";
 
 				$result = mysqli_query($conn, $query);
@@ -89,16 +93,14 @@
 						$lons = floor($row["lon_s"]);
 					}
 				}
-		   ?>
+			?>
 
-	    	<iframe src="http://server1.sky-map.org/skywindow?ra=<?php echo $latd; ?> <?php echo $latm; ?> <?php echo $lats; ?>&de=<?php echo $lond; ?> <?php echo $lonm; ?> <?php echo $lons; ?>&zoom=10" width="400" height="300"></iframe>
-		<br>
-		<input type="button" value="Make this star yours! (not fully working yet)"/>
-		<p>			</p>
-		<input type="button" value="Show me a new star! (Not working yet)"/>
+			<iframe  width="400" height="300" src="http://server1.sky-map.org/skywindow?ra=<?php echo $latd; ?> <?php echo $latm; ?> <?php echo $lats; ?>&de=<?php echo $lond; ?> <?php echo $lonm; ?> <?php echo $lons; ?>&zoom=10 img_source="DSS2""></iframe>
+			<br>
+			<input type="button" value="Make this star yours! (not fully working yet)"/>
+			<br><br>
+			<input type="button" value="Show me a new star!"/>
+		</div>
 
-	</div>
-
- 	</body>
-	</html>
-
+	</body>
+</html>
