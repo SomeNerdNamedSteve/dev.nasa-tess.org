@@ -1,106 +1,82 @@
-<?php
-/*
-	Programmer: Steven Burgess
-	Date of file creation: 9/16/16
-	Date of last maintenance: 12/19/16
-	File Name: index.html
-	File purpose: To act as the main page of the website
-*/
-?>
-
-
-
 <html>
-	<head>
-		<title>Space Science Center Adopt-a-star program</title>
-		<link rel="stylesheet" href="style.css">
-	</head>
+	    <head>
+	            <title>Space Science Center Adopt-a-star program</title>
+	            <link rel="stylesheet" href="style.css">
+    		    <link rel="stylesheet" href="http://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css" />
+		    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js" charset="utf-8"></script>
+	    </head>
 
-	<body>
-
-		<h1 id="header1">Space Science Center Adopt-A-Star Program</h1>
-
-		<div id="main">
-
-			<h2>Find your star!</h2>
-			<form action="index.php" method="post">
-				Adopted For: <input name="adopted_by" type="textfield"><br>
-				<input type="submit">
-			</form>
+	    <body>
+		<h1 id="sitetitle">Space Science Center Adopt-A-Star Program</h1>
+	    <div class="skyview">
+			<div id="aladin-lite-div"></div>
+			<script type="text/javascript" src="http://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js" charset="utf-8"></script>
 
 			<?php
 
-				$file = file_get_contents("/home/sgburgess/dev.nasa-tess.org/private/info.json");
-				$info = json_decode($file, true);
-				$server = "mysql.nasa-tess.org";
-				$user = $info["user"];
-				$pass = $info["pwd"];
-				$db = $info["db"];
-				$conn = mysqli_connect($server, $user, $pass, $db);
 
-				if(!$conn){ die("Connection Failure"); }
+				//convert RA to J2000
+				function raToGal($lad, $lam, $las) { return ($lad + ($lam/60) + ($las/3600)) * 15; }
 
-				$adopt = $_POST["adopted_by"];
-				$query = "select * from stars where adopted_by like \"$adopt\" limit 1;";
-				$result = mysqli_query($conn, $query);
-				$num_rows = mysqli_num_rows($result);
+				//convert Dec to J2000
+				function decToGal($lod, $lom, $los){ return ($lod + $lom/60 + ($los/3600)); }
 
-				if($num_rows > 0){
-					while($row = mysqli_fetch_assoc($result)){
-						$latd = floor($row["lat_d"]);
-						$latm = floor($row["lat_m"]);
-						$lats = floor($row["lat_s"]);
-						$lond = floor($row["lon_d"]);
-						$lonm = floor($row["lon_m"]);
-						$lons = floor($row["lon_s"]);
-					}
+				//get the the of celestial body
+				function getFlag($num){
+					if($num == 1){ return "Star"; }
+					else if($num == 2){ return "Binary Star"; }
+					else if($num == 3){ return "Suspected Star"; }
+					else if($num == 4){ return "Planet"; }
+					else{ return "null"; }
 				}
 
-			?>
+				//db connection
+				$file = file_get_contents("../private/info.json");
+				$db_info = json_decode($file, true);
 
-			<iframe  width="400" height="300" src="http://server1.sky-map.org/skywindow?ra=<?php echo $latd; ?> <?php echo $latm; ?> <?php echo $lats; ?>&de=<?php echo $lond; ?> <?php echo $lonm; ?> <?php echo $lons; ?>&zoom=10 img_source="DSS2""></iframe>
-			<br>
-			<br>
-		</div>
+				$user = $db_info['user'];
+				$pwd = $db_info['pwd'];
+				$db = $db_info['db'];
 
-		<div id="get_star">
-			<h2>Have a star of your own!</h2>
+				//db connection
+				$conn = mysql_connect('mysql.nasa-tess.org', $user, $pwd) or die('Could not connect');
 
-			<?php
-				$file = file_get_contents("/home/sgburgess/dev.nasa-tess.org/private/info.json");
-				$info = json_decode($file, true);
-				$server = "mysql.nasa-tess.org";
-				$user = $info["user"];
-				$pass = $info["pwd"];
-				$db = $info["db"];
-				$conn = mysqli_connect($server, $user, $pass, $db);
+				mysql_select_db($db) or die('ERROR');
 
-				if(!$conn){ die("Connection Failure"); }
+				//$query = "select * from stars where id=757076;";
+				$query = "select * from stars where adopted_by='' order by rand() limit 2500;";
 
-				$adopt = $_POST["adopted_by"];
-				$query = "select * from stars where adopted_by=\"\" order by rand() limit 1;";
+				$r = mysql_query($query) or die('QUERY ERROR');
 
-				$result = mysqli_query($conn, $query);
-				$num_rows = mysqli_num_rows($result);
+				//javascript for view of stars
+				echo '<script type="text/javascript">';
 
-				if($num_rows > 0){
-					while($row = mysqli_fetch_assoc($result)){
-						$latd = floor($row["lat_d"]);
-						$latm = floor($row["lat_m"]);
-						$lats = floor($row["lat_s"]);
-						$lond = floor($row["lon_d"]);
-						$lonm = floor($row["lon_m"]);
-						$lons = floor($row["lon_s"]);
-					}
+				//web view for stars
+				echo "	var aladin = A.aladin('#aladin-lite-div', { survey : 'P/DSS2/color', target: '665.5 +19', fov : 10, fullscreen : true, showZoomControl : false, showFullscreenControl : false, showLayersControl : false, showGotoControl : false });";
+
+				//beacon adding
+				echo "	var unadopted = A.catalog('#aladin-lite-div', { name: 'Unadopted Targets', color: 'rgb(0,0,255)', sourceSize: 50 });";
+				echo "	aladin.addCatalog(unadopted);";
+
+				while($qcol = mysql_fetch_array($r, MYSQL_ASSOC)){
+
+					$type="";
+
+					if($q2col["flag"] == 1){ $type = "Star"; }
+					else if($qcol["flag"] == 2){ $type = "Double Star"; }
+					else if($qcol["flag"] == 3){ $type = "Suspected Star"; }
+					else if($qcol["flag"] == 4){ $type = "Planet"; }
+
+					$l = raToGal($qcol["lat_d"], $qcol["lat_m"], $qcol["lat_s"]);
+					$b = decToGal($qcol["lon_d"], $qcol["lon_m"], $qcol["lon_s"]);
+					echo "unadopted.addSources([A.marker(" . (string)$l  . "," . (string)$b . ", {popupTitle: 'ID: " . $qcol["id"] .  "', popupDesc: '<em>Celestial Body: </em>". getFlag($qcol["flag"]) ." <br/><em>Right Acension: </em> " . $b . "<br/> <em>Declination: </em>" . $l . "'})]);";
+
 				}
+
+
+				echo '</script>';
 			?>
-
-			<iframe  width="400" height="300" src="http://server1.sky-map.org/skywindow?ra=<?php echo $latd; ?> <?php echo $latm; ?> <?php echo $lats; ?>&de=<?php echo $lond; ?> <?php echo $lonm; ?> <?php echo $lons; ?>&zoom=10 img_source="DSS2""></iframe>
-			<br>
-			<input type="button" value="Make this star yours! (not fully working yet)"/>
-			<br><br>
-			<input type="button" value="Show me a new star!"/>
 		</div>
+	    </body>
 
-	</body>
 </html>

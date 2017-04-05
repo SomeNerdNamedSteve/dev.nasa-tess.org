@@ -1,16 +1,10 @@
-
-#main{
-    text-align: center;
+#sitetitle{
+	text-align: center;
 }
 
-#query_form{
-    text-align: center;
-}
-
-#get_star{
-    text-align: center;
-}
-
-#header1{
-    text-align: center;
+.skyview{
+	width: 1280px;
+	height: 720px;
+	margin-left: auto;
+	margin-right: auto;
 }
